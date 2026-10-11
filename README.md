@@ -1,10 +1,14 @@
-# ScholComp — from articles to components
+# ComposableScience — from articles to components
 
-ScholComp decomposes scholarly articles into **typed, addressable, citable
+ComposableScience decomposes scholarly articles into **typed, addressable, citable
 components** (motivation, review, method, results, conclusions, artifacts),
 links components with **semantic citation edges**, and resolves entity
 mentions across papers — so contribution can be measured at a finer
 granularity than the article.
+
+> **Note:** this repository was formerly named **ScholComp**. The ScholComp
+> paper and v0.1 demo below remain intact; the new name reflects the broader
+> direction — *composable science*.
 
 This repository is the **public demo companion** to the paper
 *"From Articles to Components: Building a Component-Level Citation Graph
