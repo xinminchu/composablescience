@@ -26,7 +26,12 @@ for Scholarly Communication"* (in preparation).
   and the component graph from the emitted JSON-LD.
 - **Example** (`examples/`): *"Attention Is All You Need"*
   (arXiv:1706.03762) decomposed into 9 components + 2 hand-annotated
-  illustrative citation edges.
+  illustrative citation edges; *"BERT"* (arXiv:1810.04805) decomposed
+  into 7 components for the Idealet demo.
+- **Idealet layer** (`idealet/`, v0.1 MVP): builds the cross-paper knowledge
+  graph from component files — citation-intent edges (rule-based, CiTO-aligned),
+  entity alignment, component versioning (`supersedes`), and recombination
+  (module → paper). Visualized in `viewer/idealet.html`.
 
 ## Quickstart
 
@@ -52,10 +57,16 @@ Expected output for the example paper: 9 components
 
 - [x] Component schema (JSON-LD, draft v0.1)
 - [x] Rule-based segmentation baseline + viewer
-- [ ] Citation-intent mining (7-class, CiTO-aligned) ← next
-- [ ] Cross-paper entity resolution (mention → registry, NIL handling)
+- [x] Idealet layer v0.1 MVP (`idealet/`): rule-based citation-intent baseline
+  (5-class, CiTO-aligned) + cross-paper entity alignment baseline +
+  versioning (`supersedes`) + recombination (module → paper); demo graph over
+  Attention × BERT, visualized in `viewer/idealet.html`
+- [ ] Citation-intent mining (7-class, CiTO-aligned) with human-in-the-loop review
+- [ ] Entity resolution: NIL clustering, cross-lingual
 - [ ] LLM-assisted segmentation with human-in-the-loop review
 - [ ] Component editor + article renderer (round-trip)
+- [ ] Component-level review attachment (incentive layer foothold)
+- [ ] Growth stress test at 100-paper scale
 
 ## Design principles
 

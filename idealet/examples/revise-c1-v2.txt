@@ -1,0 +1,5 @@
+Model Architecture (rev. 2): the Transformer encoder maps an input sequence
+to continuous representations with stacked self-attention and feed-forward
+layers. Clarification added in v2: in each attention head, queries, keys and
+values are obtained by three separate learned linear projections of the same
+input; the projections are not shared across heads.

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Idealet 图谱 — 生长 · 修正 · 重组</title>
+<style>
+  :root{--bg:#fafafa;--card:#fff;--ink:#1f2937;--muted:#6b7280;--line:#e5e7eb;
+        --mono:ui-monospace,SFMono-Regular,Menlo,monospace}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Noto Sans SC",sans-serif}
+  .wrap{max-width:1180px;margin:0 auto;padding:24px 16px 64px}
+  header h1{font-size:22px;margin:0 0 4px}
+  header p{margin:0 0 12px;color:var(--muted);font-size:14px}
+  .dyn{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 16px}
+  .dyn span{font-size:12px;padding:4px 12px;border-radius:999px;background:#ecfdf5;
+            border:1px solid #a7f3d0;color:#065f46}
+  .ctrl{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin:0 0 16px;font-size:13px}
+  .ctrl label{display:flex;gap:6px;align-items:center;cursor:pointer}
+  .seg{display:flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .seg button{border:0;background:#fff;padding:8px 14px;font-size:13px;cursor:pointer}
+  .seg button.on{background:#111827;color:#fff}
+  .grid{display:grid;grid-template-columns:1fr 320px;gap:16px}
+  @media(max-width:900px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+  #graph{width:100%;height:auto;display:block}
+  .node{cursor:pointer}
+  .node-label{font-size:11px;font-weight:700;fill:#fff;text-anchor:middle;pointer-events:none}
+  .node-sub{font-size:9px;fill:#6b7280;text-anchor:middle;pointer-events:none}
+  .edge-label{font-size:10px;fill:#6b7280}
+  .edge-hand{stroke:#111827;stroke-width:1.6}
+  .edge-rule{stroke:#9ca3af;stroke-width:1.2;stroke-dasharray:5 4}
+  .edge-sup{stroke:#f59e0b;stroke-width:1.6}
+  .vbadge{font-size:9px;font-weight:700;fill:#92400e}
+  #detail h3{margin:0 0 6px;font-size:15px}
+  #detail .meta{font-size:12px;color:var(--muted);font-family:var(--mono);word-break:break-all}
+  #detail .body{font-size:13.5px;line-height:1.7;white-space:pre-wrap;margin:10px 0}
+  #detail .cite{font-size:12.5px;border-left:3px solid var(--line);padding:6px 10px;margin:8px 0;
+                background:#f9fafb;border-radius:0 8px 8px 0}
+  #detail .cite b{font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+  .hist{font-size:12px;color:#92400e;background:#fffbeb;border:1px solid #fde68a;
+        border-radius:8px;padding:8px 10px;margin:8px 0}
+  footer{margin-top:24px;font-size:12px;color:var(--muted);line-height:1.7}
+  a{color:#2563eb}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Idealet 图谱 <span style="font-size:13px;color:var(--muted);font-weight:400">v0.1 MVP</span></h1>
+    <p>论文层（arXiv 现成库）→ 模块层（组件）→ Idealet 层：组件引用意图边 + 跨论文实体对齐。
+       数据：Attention Is All You Need × BERT。</p>
+    <div class="dyn"><span>🌱 生长：新论文组件自动接入</span><span>✏️ 修正：版本 + supersedes 边</span><span>🧩 重组：模块 → 生成新论文</span></div>
+  </header>
+
+  <div class="ctrl">
+    <div class="seg" id="viewSeg">
+      <button data-v="current" class="on">当前共识</button><button data-v="history">完整历史</button>
+    </div>
+    <div class="seg" id="citeSeg">
+      <button data-v="all" class="on">引用边：全部</button><button data-v="hand">仅手工</button><button data-v="rule">仅规则</button>
+    </div>
+    <label><input type="checkbox" id="entToggle"> 显示实体提及边</label>
+  </div>
+
+  <div class="grid">
+    <div class="card"><svg id="graph" role="img"></svg></div>
+    <div class="card" id="detail"><h3>点击一个组件</h3><p style="color:var(--muted);font-size:13px">查看文本、版本历史与引用上下文。</p></div>
+  </div>
+
+  <div class="card" style="margin-top:16px" id="recomb"></div>
+
+  <footer>构建：<span style="font-family:var(--mono)">python3 idealet/graph.py --inputs examples/arxiv-1706-03762.jsonld examples/arxiv-1810-04805.jsonld -o idealet/graph.json</span><br>
+  修正演示：c1 已有 v2（supersedes 边）；重组演示见 <span style="font-family:var(--mono)">idealet/examples/recombined-demo.json</span>。方法均为 rule-based baseline，见 <a href="../idealet/README.md">idealet/README</a>。</footer>
+</div>
+
+<script>
+const COLORS={MotivationProblem:"#10b981",LiteratureReview:"#f59e0b",MethodStrategy:"#3b82f6",
+              ProcessResults:"#8b5cf6",ConclusionExtensions:"#14b8a5",AppendicesArtifacts:"#6b7280"};
+let G=null, view="current", citeFilter="all", showEnt=false, selected=null;
+
+fetch("../idealet/graph.json").then(r=>r.json()).then(g=>{G=g; render();});
+
+function visibleNodes(){
+  const supTo=new Set(G.edges.filter(e=>e["@type"]==="supersedes").map(e=>e.to));
+  const nodes=G.nodes.filter(n=>n["@type"]==="ScholarlyComponent");
+  if(view==="current"){
+    const latest={};
+    nodes.forEach(n=>{const l=n.lineage||n["@id"];
+      if(!latest[l]||n.version>(latest[l].version||1))latest[l]=n;});
+    return Object.values(latest);
+  }
+  return nodes;
+}
+function render(){
+  const svg=document.getElementById("graph");
+  const comps=visibleNodes();
+  const ids=new Set(comps.map(c=>c["@id"]));
+  G.nodes.filter(n=>n["@type"]==="ScholarlyArticle").forEach(a=>ids.add(a["@id"]));
+  const papers=[...new Set(comps.map(c=>paperOf(c["@id"])))];
+  const W=760, laneW=W/Math.max(papers.length,1), H=Math.max(420, comps.length*46+120);
+  svg.setAttribute("viewBox",`0 0 ${W} ${H}`);
+  svg.innerHTML="";
+  const pos={};
+  papers.forEach((p,pi)=>{
+    const pcs=comps.filter(c=>paperOf(c["@id"])===p).sort((a,b)=>(a.order||0)-(b.order||0));
+    const x=laneW*pi+laneW/2;
+    const t=document.createElementNS("http://www.w3.org/2000/svg","text");
+    t.setAttribute("x",x);t.setAttribute("y",22);t.setAttribute("class","node-sub");
+    t.textContent=shortPaper(p);svg.appendChild(t);
+    pcs.forEach((c,ci)=>{
+      const y=60+ci*46;
+      pos[c["@id"]]={x,y};
+      const gEl=document.createElementNS("http://www.w3.org/2000/svg","g");
+      gEl.setAttribute("class","node");gEl.dataset.id=c["@id"];
+      const r=document.createElementNS("http://www.w3.org/2000/svg","rect");
+      r.setAttribute("x",x-52);r.setAttribute("y",y-16);r.setAttribute("width",104);
+      r.setAttribute("height",32);r.setAttribute("rx",9);
+      r.setAttribute("fill",COLORS[c.componentType]||"#6b7280");
+      if((c.version||1)>1){r.setAttribute("stroke","#92400e");r.setAttribute("stroke-width",2.5);}
+      gEl.appendChild(r);
+      const lb=document.createElementNS("http://www.w3.org/2000/svg","text");
+      lb.setAttribute("x",x);lb.setAttribute("y",y+1);lb.setAttribute("class","node-label");
+      lb.textContent=codeOf(c)+(c.version>1?" ·v"+c.version:"");gEl.appendChild(lb);
+      const sb=document.createElementNS("http://www.w3.org/2000/svg","text");
+      sb.setAttribute("x",x);sb.setAttribute("y",y+12);sb.setAttribute("class","node-sub");
+      sb.setAttribute("fill","#fff");sb.textContent=(c.name||"").slice(0,16);gEl.appendChild(sb);
+      gEl.addEventListener("click",()=>select(c["@id"]));
+      svg.appendChild(gEl);
+    });
+  });
+  // citation + supersedes edges
+  G.edges.forEach(e=>{
+    if(e["@type"]==="mentions"&&!showEnt)return;
+    if(e["@type"]==="cites"){
+      if(citeFilter!=="all"&&!((citeFilter==="hand")===(e.method==="hand-annotated")))return;
+    }
+    if(e["@type"]==="supersedes"&&view!=="history")return;
+    if(!(pos[e.from]&&pos[e.to])&&e["@type"]!=="mentions")return;
+    if(e["@type"]==="mentions"&&!(pos[e.from]))return;
+    const a=pos[e.from]||{x:W/2,y:H-30}, b=pos[e.to]||{x:W/2,y:H-30};
+    if(a===b)return;
+    const p=document.createElementNS("http://www.w3.org/2000/svg","path");
+    const mx=(a.x+b.x)/2;
+    p.setAttribute("d",`M${a.x},${a.y} Q${mx},${(a.y+b.y)/2-34} ${b.x},${b.y}`);
+    p.setAttribute("fill","none");
+    p.setAttribute("class",e["@type"]==="supersedes"?"edge-sup":(e.method==="hand-annotated"?"edge-hand":"edge-rule"));
+    if(e["@type"]==="mentions")p.setAttribute("class","edge-rule");
+    svg.appendChild(p);
+    if(e.intent||e["@type"]==="supersedes"){
+      const t=document.createElementNS("http://www.w3.org/2000/svg","text");
+      t.setAttribute("x",mx);t.setAttribute("y",(a.y+b.y)/2-38);
+      t.setAttribute("class","edge-label");t.setAttribute("text-anchor","middle");
+      t.textContent=e["@type"]==="supersedes"?"supersedes":e.intent+
+        (e.method==="hand-annotated"?" ●":" ○");
+      svg.appendChild(t);
+    }
+  });
+  renderRecomb();
+  if(selected)select(selected);
+}
+function paperOf(cid){const m=cid.match(/(arxiv-[^/]+)/);return m?m[1]:"external";}
+function shortPaper(p){return p.replace("arxiv-","");}
+function codeOf(c){const m=(c["@id"].match(/\/([a-z]+\d*)/)||[])[1];return m||c.componentType||"?";}
+function select(id){
+  selected=id;
+  const n=G.nodes.find(n=>n["@id"]===id);if(!n)return;
+  const d=document.getElementById("detail");
+  const hist=G.edges.filter(e=>e["@type"]==="supersedes"&&(e.from===id||e.to===id));
+  const inC=G.edges.filter(e=>e["@type"]==="cites"&&e.to===id);
+  const outC=G.edges.filter(e=>e["@type"]==="cites"&&e.from===id);
+  d.innerHTML=`<h3>${codeOf(n)}${n.version>1?" · v"+n.version:""} <span style="color:var(--muted);font-weight:400;font-size:12px">${n.componentType||""}</span></h3>
+    <div class="meta">${n["@id"]}</div>
+    ${n.revisionNote?`<div class="hist">✏️ 修订说明：${esc(n.revisionNote)}${n.revisedBy?"（"+esc(n.revisedBy)+"）":""}</div>`:""}
+    <div class="body">${esc((n.text||"").slice(0,900))}${(n.text||"").length>900?"…":""}</div>
+    ${hist.length?`<div class="hist">版本链：${hist.map(h=>shortId(h.to)+" → "+shortId(h.from)).join("; ")}</div>`:""}
+    <h3 style="margin-top:14px;font-size:13px">引用此组件 (${inC.length})</h3>
+    ${inC.map(e=>`<div class="cite"><b>${e.intent}</b> <span style="color:var(--muted)">${e.method} · ${e.confidence}</span><br>← ${shortId(e.from)}<br><span style="color:var(--muted)">“${esc((e.context||"").slice(0,180))}…”</span></div>`).join("")||'<p style="color:var(--muted);font-size:12px">无</p>'}
+    <h3 style="margin-top:10px;font-size:13px">此组件引用 (${outC.length})</h3>
+    ${outC.map(e=>`<div class="cite"><b>${e.intent}</b> <span style="color:var(--muted)">${e.method} · ${e.confidence}</span><br>→ ${shortId(e.to)}</div>`).join("")||'<p style="color:var(--muted);font-size:12px">无</p>'}`;
+}
+function shortId(id){const m=id.match(/(arxiv-[^/]+)\/(.+)$/);return m?m[1].replace("arxiv-","")+"/"+m[2]:id.slice(-24);}
+function esc(s){return (s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;");}
+function renderRecomb(){
+  fetch("../idealet/examples/recombined-demo.json").then(r=>r.json()).then(j=>{
+    const a=j["@graph"][0];
+    document.getElementById("recomb").innerHTML=
+      `<h2 style="font-size:15px;margin:0 0 8px">🧩 重组演示：模块 → 生成新论文</h2>
+       <div style="font-size:14px"><b>${esc(a["schema:name"])}</b></div>
+       <div style="font-size:12.5px;color:var(--muted);margin-top:6px">${a.provenance}</div>
+       <div style="font-size:13px;margin-top:8px">composedOf: ${a.composedOf.map(c=>`<span style="font-family:var(--mono);background:#f3f4f6;border-radius:6px;padding:2px 8px;margin-right:6px">${shortId(c.component)} (v${c.version})</span>`).join("")}</div>
+       <div style="font-size:12px;color:var(--muted);margin-top:6px">注意 c1 取的是 v2（修正后的当前版本）——修正自动流入重组。</div>`;
+  }).catch(()=>{});
+}
+document.getElementById("viewSeg").addEventListener("click",e=>{
+  const b=e.target.closest("button");if(!b)return;view=b.dataset.v;
+  document.querySelectorAll("#viewSeg button").forEach(x=>x.classList.toggle("on",x===b));render();});
+document.getElementById("citeSeg").addEventListener("click",e=>{
+  const b=e.target.closest("button");if(!b)return;citeFilter=b.dataset.v;
+  document.querySelectorAll("#citeSeg button").forEach(x=>x.classList.toggle("on",x===b));render();});
+document.getElementById("entToggle").addEventListener("change",e=>{showEnt=e.target.checked;render();});
+</script>
+</body>
+</html>

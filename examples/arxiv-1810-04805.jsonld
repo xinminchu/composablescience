@@ -1,0 +1,195 @@
+{
+  "@context": {
+    "ComponentCitation": "scomp:ComponentCitation",
+    "EntityMention": "scomp:EntityMention",
+    "ResearchEntity": "scomp:ResearchEntity",
+    "ScholarlyArticle": "scomp:ScholarlyArticle",
+    "ScholarlyComponent": "scomp:ScholarlyComponent",
+    "agent": "scomp:agent",
+    "aliases": "scomp:aliases",
+    "canonicalName": "scomp:canonicalName",
+    "citationContext": "scomp:citationContext",
+    "citationIntent": "scomp:citationIntent",
+    "cito": "http://purl.org/spar/cito/",
+    "componentType": "scomp:componentType",
+    "confidence": "scomp:confidence",
+    "contributors": "scomp:contributors",
+    "credit": "https://credit.niso.org/contributor-roles/",
+    "derivedFrom": "scomp:derivedFrom",
+    "entityKind": "scomp:entityKind",
+    "extractionMethod": "scomp:extractionMethod",
+    "extractorModel": "scomp:extractorModel",
+    "hasComponent": "scomp:hasComponent",
+    "inComponent": "scomp:inComponent",
+    "linkStatus": "scomp:linkStatus",
+    "linksTo": "scomp:linksTo",
+    "locator": "scomp:locator",
+    "note": "scomp:note",
+    "order": "scomp:order",
+    "role": "scomp:role",
+    "schema": "http://schema.org/",
+    "schemaVersion": "scomp:schemaVersion",
+    "scomp": "https://w3id.org/scholcomp/v0.1#",
+    "sourceComponent": "scomp:sourceComponent",
+    "surfaceForm": "scomp:surfaceForm",
+    "targetComponent": "scomp:targetComponent",
+    "verifiedBy": "scomp:verifiedBy"
+  },
+  "@graph": [
+    {
+      "@id": "https://w3id.org/scholcomp/arxiv-1810-04805",
+      "@type": "ScholarlyArticle",
+      "schema:name": "BERT : Pre-training of Deep Bidirectional Transformers for Language Understanding",
+      "hasComponent": [
+        {
+          "@id": "https://w3id.org/scholcomp/arxiv-1810-04805/a1"
+        },
+        {
+          "@id": "https://w3id.org/scholcomp/arxiv-1810-04805/a2"
+        },
+        {
+          "@id": "https://w3id.org/scholcomp/arxiv-1810-04805/b1"
+        },
+        {
+          "@id": "https://w3id.org/scholcomp/arxiv-1810-04805/c1"
+        },
+        {
+          "@id": "https://w3id.org/scholcomp/arxiv-1810-04805/d1"
+        },
+        {
+          "@id": "https://w3id.org/scholcomp/arxiv-1810-04805/c2"
+        },
+        {
+          "@id": "https://w3id.org/scholcomp/arxiv-1810-04805/e1"
+        }
+      ],
+      "schemaVersion": "0.1"
+    },
+    {
+      "@id": "https://w3id.org/scholcomp/arxiv-1810-04805/a1",
+      "@type": "ScholarlyComponent",
+      "componentType": "MotivationProblem",
+      "schema:name": "Abstract",
+      "order": 0,
+      "locator": "Section: Abstract",
+      "schema:inLanguage": "en",
+      "schema:text": "Abstract We introduce a new language representation model called BERT , which stands for B idirectional E ncoder R epresentations from T ransformers. Unlike recent language representation models Peters et al. 2018a ; Radford et al. 2018 , BERT is designed to pre-train deep bidirectional representations from unlabeled text by jointly conditioning on both left and right context in all layers. As a result, the pre-trained BERT model can be fine-tuned with just one additional output layer to create state-of-the-art models for a wide range of tasks, such as question answering and language inference, without substantial task-specific architecture modifications. BERT is conceptually simple and empirically powerful. It obtains new state-of-the-art results on eleven natural language processing tasks, including pushing the GLUE score to 80.5% (7.7% point absolute improvement), MultiNLI accuracy to 86.7% (4.6% absolute improvement), SQuAD v1.1 question answering Test F1 to 93.2 (1.5 point absolute improvement) and SQuAD v2.0 Test F1 to 83.1 (5.1 point absolute improvement).",
+      "derivedFrom": {
+        "@id": "https://w3id.org/scholcomp/arxiv-1810-04805"
+      },
+      "extractionMethod": "rule-based",
+      "extractorModel": "scholcomp-segmenter v0.1 (rule-based baseline, 2026-09-29)",
+      "confidence": 0.95,
+      "note": "Classification basis: title rule: 'abstract'.",
+      "schemaVersion": "0.1"
+    },
+    {
+      "@id": "https://w3id.org/scholcomp/arxiv-1810-04805/a2",
+      "@type": "ScholarlyComponent",
+      "componentType": "MotivationProblem",
+      "schema:name": "Introduction",
+      "order": 1,
+      "locator": "Section: Introduction",
+      "schema:inLanguage": "en",
+      "schema:text": "1 Introduction Language model pre-training has been shown to be effective for improving many natural language processing tasks Dai and Le 2015 ; Peters et al. 2018a ; Radford et al. 2018 ; Howard and Ruder 2018 . These include sentence-level tasks such as natural language inference Bowman et al. 2015 ; Williams et al. 2018 and paraphrasing Dolan and Brockett 2005 , which aim to predict the relationships between sentences by analyzing them holistically, as well as token-level tasks such as named entity recognition and question answering, where models are required to produce fine-grained output at the token level Tjong Kim Sang and De Meulder 2003 ; Rajpurkar et al. 2016 . There are two existing strategies for applying pre-trained language representations to downstream tasks: feature-based and fine-tuning . The feature-based approach, such as ELMo Peters et al. 2018a , uses task-specific architectures that include the pre-trained representations as additional features. The fine-tuning approach, such as the Generative Pre-trained Transformer (OpenAI GPT) Radford et al. 2018 , introduces minimal task-specific parameters, and is trained on the downstream tasks by simply fine-tuning all pre-trained parameters. The two approaches share the same objective function during pre-training, where they use unidirectional language models to learn general language representations. We argue that current techniques restrict the power of the pre-trained representations, especially for the fine-tuning approaches. The major limitation is that standard language models are unidirectional, and this limits the choice of architectures that can be used during pre-training. For example, in OpenAI GPT, the authors use a left-to-right architecture, where every token can only attend to previous tokens in the self-attention layers of the Transformer Vaswani et al. 2017 . Such restrictions are sub-optimal for sentence-level tasks, and could be very harmful when applying fine-tuning based approaches  …[truncated in demo]",
+      "derivedFrom": {
+        "@id": "https://w3id.org/scholcomp/arxiv-1810-04805"
+      },
+      "extractionMethod": "rule-based",
+      "extractorModel": "scholcomp-segmenter v0.1 (rule-based baseline, 2026-09-29)",
+      "confidence": 0.95,
+      "note": "Classification basis: title rule: 'introduction'.",
+      "schemaVersion": "0.1"
+    },
+    {
+      "@id": "https://w3id.org/scholcomp/arxiv-1810-04805/b1",
+      "@type": "ScholarlyComponent",
+      "componentType": "LiteratureReview",
+      "schema:name": "Related Work",
+      "order": 2,
+      "locator": "Section: Related Work",
+      "schema:inLanguage": "en",
+      "schema:text": "2 Related Work There is a long history of pre-training general language representations, and we briefly review the most widely-used approaches in this section. 2.1 Unsupervised Feature-based Approaches Learning widely applicable representations of words has been an active area of research for decades, including non-neural Brown et al. 1992 ; Ando and Zhang 2005 ; Blitzer et al. 2006 and neural Mikolov et al. 2013 ; Pennington et al. 2014 methods. Pre-trained word embeddings are an integral part of modern NLP systems, offering significant improvements over embeddings learned from scratch Turian et al. 2010 . To pre-train word embedding vectors, left-to-right language modeling objectives have been used Mnih and Hinton 2009 , as well as objectives to discriminate correct from incorrect words in left and right context Mikolov et al. 2013 . These approaches have been generalized to coarser granularities, such as sentence embeddings Kiros et al. 2015 ; Logeswaran and Lee 2018 or paragraph embeddings Le and Mikolov 2014 . To train sentence representations, prior work has used objectives to rank candidate next sentences Jernite et al. 2017 ; Logeswaran and Lee 2018 , left-to-right generation of next sentence words given a representation of the previous sentence Kiros et al. 2015 , or denoising auto-encoder derived objectives Hill et al. 2016 . Figure 1: Overall pre-training and fine-tuning procedures for BERT. Apart from output layers, the same architectures are used in both pre-training and fine-tuning. The same pre-trained model parameters are used to initialize models for different down-stream tasks. During fine-tuning, all parameters are fine-tuned. [CLS] is a special symbol added in front of every input example, and [SEP] is a special separator token (e.g. separating questions/answers). ELMo and its predecessor Peters et al. 2017 ; Peters et al. 2018a generalize traditional word embedding research along a different dimension. They extract context-sensitive features fro …[truncated in demo]",
+      "derivedFrom": {
+        "@id": "https://w3id.org/scholcomp/arxiv-1810-04805"
+      },
+      "extractionMethod": "rule-based",
+      "extractorModel": "scholcomp-segmenter v0.1 (rule-based baseline, 2026-09-29)",
+      "confidence": 0.95,
+      "note": "Classification basis: title rule: 'related work'.",
+      "schemaVersion": "0.1"
+    },
+    {
+      "@id": "https://w3id.org/scholcomp/arxiv-1810-04805/c1",
+      "@type": "ScholarlyComponent",
+      "componentType": "MethodStrategy",
+      "schema:name": "BERT",
+      "order": 3,
+      "locator": "Section: BERT",
+      "schema:inLanguage": "en",
+      "schema:text": "3 BERT We introduce BERT and its detailed implementation in this section. There are two steps in our framework: pre-training and fine-tuning . During pre-training, the model is trained on unlabeled data over different pre-training tasks. For fine-tuning, the BERT model is first initialized with the pre-trained parameters, and all of the parameters are fine-tuned using labeled data from the downstream tasks. Each downstream task has separate fine-tuned models, even though they are initialized with the same pre-trained parameters. The question-answering example in Figure 1 will serve as a running example for this section. A distinctive feature of BERT is its unified architecture across different tasks. There is minimal difference between the pre-trained architecture and the final downstream architecture. Model Architecture BERT’s model architecture is a multi-layer bidirectional Transformer encoder based on the original implementation described in Vaswani et al. 2017 and released in the tensor2tensor library. 1 1 1 https://github.com/tensorflow/tensor2tensor Because the use of Transformers has become common and our implementation is almost identical to the original, we will omit an exhaustive background description of the model architecture and refer readers to Vaswani et al. 2017 as well as excellent guides such as ‘‘The Annotated Transformer.’’ 2 2 2 http://nlp.seas.harvard.edu/2018/04/03/attention.html In this work, we denote the number of layers (i.e., Transformer blocks) as L L , the hidden size as H H , and the number of self-attention heads as A A . 3 3 3 In all cases we set the feed-forward/filter size to be 4 ​ H 4H , i.e., 3072 for the H = 768 H=768 and 4096 for the H = 1024 H=1024 . We primarily report results on two model sizes: BERT BASE {}_{\\textsc{BASE}} (L=12, H=768, A=12, Total Parameters=110M) and BERT LARGE {}_{\\textsc{LARGE}} (L=24, H=1024, A=16, Total Parameters=340M). BERT BASE {}_{\\textsc{BASE}} was chosen to have the same model size as OpenAI G …[truncated in demo]",
+      "derivedFrom": {
+        "@id": "https://w3id.org/scholcomp/arxiv-1810-04805"
+      },
+      "extractionMethod": "rule-based",
+      "extractorModel": "scholcomp-segmenter v0.1 (rule-based baseline, 2026-09-29)",
+      "confidence": 0.91,
+      "note": "Classification basis: keyword scoring (17 cues).",
+      "schemaVersion": "0.1"
+    },
+    {
+      "@id": "https://w3id.org/scholcomp/arxiv-1810-04805/d1",
+      "@type": "ScholarlyComponent",
+      "componentType": "ProcessResults",
+      "schema:name": "Experiments",
+      "order": 4,
+      "locator": "Section: Experiments",
+      "schema:inLanguage": "en",
+      "schema:text": "4 Experiments In this section, we present BERT fine-tuning results on 11 NLP tasks. 4.1 GLUE The General Language Understanding Evaluation (GLUE) benchmark Wang et al. 2018a is a collection of diverse natural language understanding tasks. Detailed descriptions of GLUE datasets are included in Appendix B.1 . To fine-tune on GLUE, we represent the input sequence (for single sentence or sentence pairs) as described in Section 3 , and use the final hidden vector C ∈ ℝ H C\\in\\mathbb{R}^{H} corresponding to the first input token ( [CLS] ) as the aggregate representation. The only new parameters introduced during fine-tuning are classification layer weights W ∈ ℝ K × H W\\in\\mathbb{R}^{K\\times H} , where K K is the number of labels. We compute a standard classification loss with C C and W W , i.e., log ⁡ ( softmax ⁡ ( C ​ W T ) ) \\log({\\rm softmax}(CW^{T})) . We use a batch size of 32 and fine-tune for 3 epochs over the data for all GLUE tasks. For each task, we selected the best fine-tuning learning rate (among 5e-5, 4e-5, 3e-5, and 2e-5) on the Dev set. Additionally, for BERT LARGE {}_{\\textsc{LARGE}} we found that fine-tuning was sometimes unstable on small datasets, so we ran several random restarts and selected the best model on the Dev set. With random restarts, we use the same pre-trained checkpoint but perform different fine-tuning data shuffling and classifier layer initialization. 10 10 10 The GLUE data set distribution does not include the Test labels, and we only made a single GLUE evaluation server submission for each of BERT BASE {}_{\\textsc{BASE}} and BERT LARGE {}_{\\textsc{LARGE}} . Results are presented in Table 9 . Both BERT BASE {}_{\\textsc{BASE}} and BERT LARGE {}_{\\textsc{LARGE}} outperform all systems on all tasks by a substantial margin, obtaining 4.5% and 7.0% respective average accuracy improvement over the prior state of the art. Note that BERT BASE {}_{\\textsc{BASE}} and OpenAI GPT are nearly identical in terms of model architecture apart from the …[truncated in demo]",
+      "derivedFrom": {
+        "@id": "https://w3id.org/scholcomp/arxiv-1810-04805"
+      },
+      "extractionMethod": "rule-based",
+      "extractorModel": "scholcomp-segmenter v0.1 (rule-based baseline, 2026-09-29)",
+      "confidence": 0.95,
+      "note": "Classification basis: title rule: 'experiment'.",
+      "schemaVersion": "0.1"
+    },
+    {
+      "@id": "https://w3id.org/scholcomp/arxiv-1810-04805/c2",
+      "@type": "ScholarlyComponent",
+      "componentType": "MethodStrategy",
+      "schema:name": "Ablation Studies",
+      "order": 5,
+      "locator": "Section: Ablation Studies",
+      "schema:inLanguage": "en",
+      "schema:text": "5 Ablation Studies In this section, we perform ablation experiments over a number of facets of BERT in order to better understand their relative importance. Additional ablation studies can be found in Appendix C . 5.1 Effect of Pre-training Tasks We demonstrate the importance of the deep bidirectionality of BERT by evaluating two pre-training objectives using exactly the same pre-training data, fine-tuning scheme, and hyperparameters as BERT BASE {}_{\\textsc{BASE}} : No NSP : A bidirectional model which is trained using the “masked LM” (MLM) but without the “next sentence prediction” (NSP) task. LTR & No NSP : A left-context-only model which is trained using a standard Left-to-Right (LTR) LM, rather than an MLM. The left-only constraint was also applied at fine-tuning, because removing it introduced a pre-train/fine-tune mismatch that degraded downstream performance. Additionally, this model was pre-trained without the NSP task. This is directly comparable to OpenAI GPT, but using our larger training dataset, our input representation, and our fine-tuning scheme. Dev Set Tasks MNLI-m QNLI MRPC SST-2 SQuAD (Acc) (Acc) (Acc) (Acc) (F1) BERT BASE {}_{\\textsc{BASE}} 84.4 88.4 86.7 92.7 88.5 No NSP 83.9 84.9 86.5 92.6 87.9 LTR & No NSP 82.1 84.3 77.5 92.1 77.8 + BiLSTM 82.1 84.1 75.7 91.6 84.9 Table 5: Ablation over the pre-training tasks using the BERT BASE {}_{\\textsc{BASE}} architecture. “No NSP” is trained without the next sentence prediction task. “LTR & No NSP” is trained as a left-to-right LM without the next sentence prediction, like OpenAI GPT. “+ BiLSTM” adds a randomly initialized BiLSTM on top of the “LTR + No NSP” model during fine-tuning. We first examine the impact brought by the NSP task. In Table 5 , we show that removing NSP hurts performance significantly on QNLI, MNLI, and SQuAD 1.1. Next, we evaluate the impact of training bidirectional representations by comparing “No NSP” to “LTR & No NSP”. The LTR model performs worse than the MLM model on all task …[truncated in demo]",
+      "derivedFrom": {
+        "@id": "https://w3id.org/scholcomp/arxiv-1810-04805"
+      },
+      "extractionMethod": "rule-based",
+      "extractorModel": "scholcomp-segmenter v0.1 (rule-based baseline, 2026-09-29)",
+      "confidence": 0.85,
+      "note": "Classification basis: keyword scoring (8 cues).",
+      "schemaVersion": "0.1"
+    },
+    {
+      "@id": "https://w3id.org/scholcomp/arxiv-1810-04805/e1",
+      "@type": "ScholarlyComponent",
+      "componentType": "ConclusionExtensions",
+      "schema:name": "Conclusion",
+      "order": 6,
+      "locator": "Section: Conclusion",
+      "schema:inLanguage": "en",
+      "schema:text": "6 Conclusion Recent empirical improvements due to transfer learning with language models have demonstrated that rich, unsupervised pre-training is an integral part of many language understanding systems. In particular, these results enable even low-resource tasks to benefit from deep unidirectional architectures. Our major contribution is further generalizing these findings to deep bidirectional architectures, allowing the same pre-trained model to successfully tackle a broad set of NLP tasks.",
+      "derivedFrom": {
+        "@id": "https://w3id.org/scholcomp/arxiv-1810-04805"
+      },
+      "extractionMethod": "rule-based",
+      "extractorModel": "scholcomp-segmenter v0.1 (rule-based baseline, 2026-09-29)",
+      "confidence": 0.95,
+      "note": "Classification basis: title rule: 'conclusion'.",
+      "schemaVersion": "0.1"
+    }
+  ]
+}

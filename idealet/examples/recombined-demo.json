@@ -1,0 +1,53 @@
+{
+ "@graph": [
+  {
+   "@id": "idealet:recombined-from-attention-to-bert-a-module-reader",
+   "@type": "ScholarlyArticle",
+   "schema:name": "From attention to BERT: a module reader",
+   "hasComponent": [
+    {
+     "@id": "https://w3id.org/scholcomp/arxiv-1706-03762/c1@v2"
+    },
+    {
+     "@id": "https://w3id.org/scholcomp/arxiv-1810-04805/c1"
+    }
+   ],
+   "composedOf": [
+    {
+     "component": "https://w3id.org/scholcomp/arxiv-1706-03762/c1@v2",
+     "version": 2,
+     "lineage": "https://w3id.org/scholcomp/arxiv-1706-03762/c1"
+    },
+    {
+     "component": "https://w3id.org/scholcomp/arxiv-1810-04805/c1",
+     "version": 1,
+     "lineage": "https://w3id.org/scholcomp/arxiv-1810-04805/c1"
+    }
+   ],
+   "composedBy": "sam",
+   "provenance": "recombined from Idealet components; each keeps its own version history and citation edges"
+  },
+  {
+   "@id": "https://w3id.org/scholcomp/arxiv-1706-03762/c1@v2",
+   "@type": "ScholarlyComponent",
+   "componentType": "MethodStrategy",
+   "name": "Model Architecture",
+   "order": 3,
+   "version": 2,
+   "lineage": "https://w3id.org/scholcomp/arxiv-1706-03762/c1",
+   "text": "Model Architecture (rev. 2): the Transformer encoder maps an input sequence\nto continuous representations with stacked self-attention and feed-forward\nlayers. Clarification added in v2: in each attention head, queries, keys and\nvalues are obtained by three separate learned linear projections of the same\ninput; the projections are not shared across heads.\n",
+   "revisionNote": "demo: clarify QKV projection order",
+   "revisedBy": "sam"
+  },
+  {
+   "@id": "https://w3id.org/scholcomp/arxiv-1810-04805/c1",
+   "@type": "ScholarlyComponent",
+   "componentType": "MethodStrategy",
+   "name": "BERT",
+   "order": 3,
+   "version": 1,
+   "lineage": "https://w3id.org/scholcomp/arxiv-1810-04805/c1",
+   "text": "3 BERT We introduce BERT and its detailed implementation in this section. There are two steps in our framework: pre-training and fine-tuning . During pre-training, the model is trained on unlabeled data over different pre-training tasks. For fine-tuning, the BERT model is first initialized with the pre-trained parameters, and all of the parameters are fine-tuned using labeled data from the downstream tasks. Each downstream task has separate fine-tuned models, even though they are initialized with the same pre-trained parameters. The question-answering example in Figure 1 will serve as a running example for this section. A distinctive feature of BERT is its unified architecture across different tasks. There is minimal difference between the pre-trained architecture and the final downstream architecture. Model Architecture BERT’s model architecture is a multi-layer bidirectional Transformer encoder based on the original implementation described in Vaswani et al. 2017 and released in the tensor2tensor library. 1 1 1 https://github.com/tensorflow/tensor2tensor Because the use of Transformers has become common and our implementation is almost identical to the original, we will omit an exhaustive background description of the model architecture and refer readers to Vaswani et al. 2017 as well as excellent guides such as ‘‘The Annotated Transformer.’’ 2 2 2 http://nlp.seas.harvard.edu/2018/04/03/attention.html In this work, we denote the number of layers (i.e., Transformer blocks) as L L , the hidden size as H H , and the number of self-attention heads as A A . 3 3 3 In all cases we set the feed-forward/filter size to be 4 ​ H 4H , i.e., 3072 for the H = 768 H=768 and 4096 for the H = 1024 H=1024 . We primarily report results on two model sizes: BERT BASE {}_{\\textsc{BASE}} (L=12, H=768, A=12, Total Parameters=110M) and BERT LARGE {}_{\\textsc{LARGE}} (L=24, H=1024, A=16, Total Parameters=340M). BERT BASE {}_{\\textsc{BASE}} was chosen to have the same model size as OpenAI G"
+  }
+ ]
+}
