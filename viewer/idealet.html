@@ -28,6 +28,7 @@
   .node{cursor:pointer}
   .node-label{font-size:11px;font-weight:700;fill:#fff;text-anchor:middle;pointer-events:none}
   .node-sub{font-size:9px;fill:#6b7280;text-anchor:middle;pointer-events:none}
+  .node-name{font-size:9px;fill:#fff;opacity:.88;text-anchor:middle;pointer-events:none}
   .edge-label{font-size:10px;fill:#6b7280}
   .edge-hand{stroke:#111827;stroke-width:1.6}
   .edge-rule{stroke:#9ca3af;stroke-width:1.2;stroke-dasharray:5 4}
@@ -124,8 +125,8 @@ function render(){
       lb.setAttribute("x",x);lb.setAttribute("y",y+1);lb.setAttribute("class","node-label");
       lb.textContent=codeOf(c)+(c.version>1?" ·v"+c.version:"");gEl.appendChild(lb);
       const sb=document.createElementNS("http://www.w3.org/2000/svg","text");
-      sb.setAttribute("x",x);sb.setAttribute("y",y+12);sb.setAttribute("class","node-sub");
-      sb.setAttribute("fill","#fff");sb.textContent=(c.name||"").slice(0,16);gEl.appendChild(sb);
+      sb.setAttribute("x",x);sb.setAttribute("y",y+12);sb.setAttribute("class","node-name");
+      sb.textContent=(c.name||"").slice(0,16);gEl.appendChild(sb);
       gEl.addEventListener("click",()=>select(c["@id"]));
       svg.appendChild(gEl);
     });
@@ -162,7 +163,7 @@ function render(){
 }
 function paperOf(cid){const m=cid.match(/(arxiv-[^/]+)/);return m?m[1]:"external";}
 function shortPaper(p){return p.replace("arxiv-","");}
-function codeOf(c){const m=(c["@id"].match(/\/([a-z]+\d*)/)||[])[1];return m||c.componentType||"?";}
+function codeOf(c){const last=c["@id"].split("/").pop().split("@")[0];return last||c.componentType||"?";}
 function select(id){
   selected=id;
   const n=G.nodes.find(n=>n["@id"]===id);if(!n)return;
