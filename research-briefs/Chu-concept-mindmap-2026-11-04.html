@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>信用结算研究 · 概念思维导图（2026-11-04）</title>
+<style>
+  :root{
+    --ink:#1f2937; --muted:#6b7280; --line:#e5e7eb; --card:#ffffff; --page:#ffffff;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--page);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+    line-height:1.55;padding:20px 16px 48px}
+  header{max-width:1100px;margin:0 auto 18px;text-align:center}
+  header h1{font-size:22px;margin:0 0 4px}
+  header .sub{color:var(--muted);font-size:13px;margin:0 0 8px}
+  header .note{font-size:13px;color:var(--muted);background:#f8fafc;border:1px solid var(--line);
+    border-radius:10px;padding:8px 12px;display:inline-block;margin:0 0 10px}
+  .toolbar{margin:6px 0 0}
+  .toolbar button{font-size:13px;padding:6px 14px;margin:0 6px;border:1px solid var(--line);
+    background:#f8fafc;border-radius:8px;cursor:pointer;color:var(--ink)}
+  .toolbar button:hover{background:#eef2f7}
+  .center-node{max-width:560px;margin:6px auto 22px;text-align:center;border:2px solid #93c5fd;
+    background:#eff6ff;border-radius:14px;padding:14px 18px}
+  .center-node .cn{font-size:24px;font-weight:700}
+  .center-node .en{font-size:14px;color:var(--muted);letter-spacing:.5px}
+  .center-node .desc{font-size:13px;color:var(--muted);margin-top:6px}
+  main.grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media (max-width:900px){main.grid{grid-template-columns:repeat(2,1fr)}}
+  @media (max-width:620px){main.grid{grid-template-columns:1fr}}
+  section.branch{background:var(--card);border:1px solid var(--line);border-top:4px solid #cbd5e1;
+    border-radius:12px;padding:12px 14px;align-self:start}
+  section.branch[data-c="blue"]{border-top-color:#93c5fd}
+  section.branch[data-c="green"]{border-top-color:#86efac}
+  section.branch[data-c="amber"]{border-top-color:#fcd34d}
+  section.branch[data-c="rose"]{border-top-color:#fda4af}
+  section.branch[data-c="violet"]{border-top-color:#c4b5fd}
+  section.branch[data-c="teal"]{border-top-color:#5eead4}
+  section.branch[data-c="indigo"]{border-top-color:#a5bffd}
+  section.branch[data-c="orange"]{border-top-color:#fdba74}
+  section.branch h2{font-size:15px;margin:0 0 8px;cursor:pointer;user-select:none}
+  section.branch h2 span{display:block;font-size:12px;font-weight:400;color:var(--muted)}
+  section.branch h2::after{content:"▾";float:right;color:var(--muted);font-size:12px}
+  section.branch.closed h2::after{content:"▸"}
+  section.branch.closed .tree{display:none}
+  ul.tree{list-style:none;margin:0;padding:0}
+  ul.tree ul{list-style:none;margin:2px 0 2px 8px;padding:0 0 0 12px;border-left:2px solid #eef2f7}
+  ul.tree li{margin:5px 0}
+  .node{font-size:14px;cursor:default}
+  .node .en{color:var(--muted);font-size:12px;margin-left:6px}
+  .node .gloss{color:var(--muted);font-size:12px}
+  .node.has-kids{cursor:pointer}
+  .node.has-kids::before{content:"▾";color:var(--muted);font-size:11px;margin-right:4px}
+  li.closed > .node.has-kids::before{content:"▸"}
+  li.closed > ul{display:none}
+  .flag{display:inline-block;font-size:11px;background:#fef3c7;border:1px solid #fde68a;border-radius:6px;
+    padding:0 6px;margin-left:6px;color:#92400e;vertical-align:1px}
+  .core{display:inline-block;font-size:11px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:6px;
+    padding:0 6px;margin-left:6px;color:#1e40af;vertical-align:1px}
+  footer{max-width:1100px;margin:26px auto 0;text-align:center;color:var(--muted);font-size:12px}
+  @media print{.toolbar{display:none}main.grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<header>
+  <h1>信用结算研究 · 概念思维导图</h1>
+  <p class="sub">Concept Mind Map of the Credit Settlement Research · 2026-11-04 · 第一版（请指正）</p>
+  <p class="note">中英对照，英文为标准译法（首次出现即定稿用）。<b>≈</b> 为初拟映射，待确认。<br>点击分支标题或带 ▾ 的节点可收起 / 展开。源文件：brief v4.0 ＋ 林教授 11-04 反馈 ＋ DeepSeek 评语吸收。</p>
+  <div class="toolbar">
+    <button id="expandAll" type="button">全部展开</button>
+    <button id="collapseAll" type="button">全部收起</button>
+  </div>
+</header>
+
+<div class="center-node">
+  <div class="cn">信用结算</div>
+  <div class="en">Credit Settlement</div>
+  <div class="desc">学术信用的上位整合概念（本研究提出的新表达，附诚实声明）<br>学术场景 = PoC 框架下的一个实例，公开走通</div>
+</div>
+
+<main class="grid">
+
+  <section class="branch" data-c="blue">
+    <h2>三环节 <span>Three Links · 概念内核</span></h2>
+    <ul class="tree">
+      <li><div class="node"><b>登记</b><span class="en">Registration</span><span class="gloss">——记录贡献的存在（谁、何时、做了什么）</span></div></li>
+      <li><div class="node"><b>确权</b><span class="en">Attribution</span><span class="gloss">——确定贡献的归属与份额</span></div></li>
+      <li><div class="node"><b>承兑</b><span class="en">Acceptance</span><span class="gloss">——共同体对信用的确认与兑现</span></div></li>
+      <li><div class="node"><b>分阶段结算</b><span class="en">Staged Settlement</span><span class="flag">新增</span><span class="gloss">——0.1 / 0.5 / 0.8 / 1.0，随时间多次、可逆；回应"长期、非线性"</span></div></li>
+    </ul>
+  </section>
+
+  <section class="branch" data-c="green">
+    <h2>四概念分解 <span>Four Concepts · 操作化（林教授 / DeepSeek）</span></h2>
+    <ul class="tree">
+      <li><div class="node"><b>学术信用分配</b><span class="en">Credit Allocation</span><span class="gloss"> ≈ 确权</span><span class="flag">映射待确认</span></div></li>
+      <li><div class="node"><b>贡献归属与溯源</b><span class="en">Contribution Attribution and Provenance</span><span class="gloss"> ≈ 登记</span><span class="flag">映射待确认</span></div></li>
+      <li><div class="node"><b>信用归属与传递</b><span class="en">Credit Attribution and Transitivity</span><span class="gloss"> ≈ 承兑</span><span class="flag">映射待确认</span></div></li>
+      <li><div class="node"><b>价值实现与分润</b><span class="en">Value Realization and Revenue Sharing</span><span class="gloss"> ≈ 下游使用</span><span class="flag">映射待确认</span></div></li>
+    </ul>
+  </section>
+
+  <section class="branch" data-c="amber">
+    <h2>五维信用向量 <span>Credit Vector · 向量不加总</span></h2>
+    <ul class="tree">
+      <li><div class="node"><b>原创性</b><span class="en">Originality</span><span class="gloss"> ← 注册</span></div></li>
+      <li><div class="node"><b>证据质量</b><span class="en">Evidence Quality</span><span class="gloss"> ← 认证</span></div></li>
+      <li><div class="node"><b>验证</b><span class="en">Verification</span><span class="gloss"> ← 认证；AI 可做基于证据链的逻辑验证</span></div></li>
+      <li><div class="node"><b>维护</b><span class="en">Maintenance</span><span class="gloss"> ← 存档；激励真空 → 独立产出 / 独立 DOI</span><span class="flag">新增</span></div></li>
+      <li><div class="node"><b>下游使用</b><span class="en">Downstream Use</span><span class="gloss"> ← 传播</span></div></li>
+      <li><div class="node"><span class="gloss">推导：注册→原创性；认证→证据质量＋验证；传播→下游使用；存档→维护（1＋2＋1＋1＝5）</span></div></li>
+    </ul>
+  </section>
+
+  <section class="branch" data-c="rose">
+    <h2>第一读者 <span>First Reader · 中心命题</span></h2>
+    <ul class="tree">
+      <li><div class="node"><b>发现者</b><span class="en">Discoverer</span><span class="gloss">——AI 已接管</span></div></li>
+      <li><div class="node"><b>解释者</b><span class="en">Interpreter</span><span class="gloss">——AI 已接管</span></div></li>
+      <li><div class="node"><b>裁决者</b><span class="en">Adjudicator</span><span class="gloss">——人类保留（开放问题；Accountability）</span></div></li>
+      <li><div class="node"><span class="gloss">中心命题：AI 不消除结算瓶颈，它改变结算的</span><b>单位</b><span class="gloss">和</span><b>位置</b></div></li>
+      <li><div class="node"><span class="core">金句</span><span class="gloss">裁决机制不能再寄生在旧的发现渠道上</span></div></li>
+    </ul>
+  </section>
+
+  <section class="branch" data-c="violet">
+    <h2>困惑 · 条件 · 命题 <span>Puzzles · Conditions · Propositions</span></h2>
+    <ul class="tree">
+      <li><div class="node"><b>困惑一</b><span class="gloss">——破碎的系统为何不死</span></div></li>
+      <li><div class="node"><b>困惑二</b><span class="gloss">——改革的反讽：DORA 加固了论文作为结算单位</span></div></li>
+      <li><div class="node has-kids"><b>机制变迁三条件</b><span class="en">Three Conditions</span></div>
+        <ul>
+          <li><div class="node"><b>媒介</b><span class="en">Medium</span></div></li>
+          <li><div class="node"><b>联盟</b><span class="en">Coalition</span></div></li>
+          <li><div class="node"><b>成本</b><span class="en">Cost</span></div></li>
+        </ul>
+      </li>
+      <li><div class="node"><b>P1 – P3</b><span class="gloss"> 命题网络（见 brief §9）</span></div></li>
+      <li><div class="node"><span class="core">防误读</span><span class="gloss">第一读者 ≠ 每篇都被机器先打开；升级而非替代</span></div></li>
+    </ul>
+  </section>
+
+  <section class="branch" data-c="teal">
+    <h2>文献与理论资源 <span>Literature</span></h2>
+    <ul class="tree">
+      <li><div class="node"><b>谱系</b><span class="gloss">——Merton 1973 / Bourdieu 1975 / Meyer &amp; Rowan 1977</span></div></li>
+      <li><div class="node"><b>基线</b><span class="gloss">——Roosendaal &amp; Geurts 1997（期刊四功能：注册/认证/传播/存档）</span></div></li>
+      <li><div class="node"><b>改革派盲区</b><span class="gloss">——DORA / CoARA：只换尺子不换单位</span></div></li>
+      <li><div class="node"><b>归属标准</b><span class="gloss">——CRediT（Contributor Roles Taxonomy）</span><span class="flag">新增</span></div></li>
+      <li><div class="node"><b>开放科学</b><span class="gloss">——Nanopublications / FDO / ORKG：登记＋确权已有，卡在承兑</span><span class="flag">新增</span></div></li>
+      <li><div class="node"><b>实证</b><span class="gloss">——Hao et al. 2026, <i>Nature</i>：个体–集体激励冲突</span></div></li>
+      <li><div class="node"><b>承兑先例</b><span class="gloss">——UKRI R4RI / NIH Biosketch</span></div></li>
+    </ul>
+  </section>
+
+  <section class="branch" data-c="indigo">
+    <h2>平台与实验 <span>Platform &amp; Experiment · 向量落地的数据架构</span></h2>
+    <ul class="tree">
+      <li><div class="node"><b>退稿重生</b><span class="en">reqaq</span><span class="gloss">——公开共研平台</span></div></li>
+      <li><div class="node"><b>共研实验台</b><span class="en">weiver</span><span class="gloss">——内部实验平台；ADR 试验场（Sein et al. 2011, <i>MISQ</i>）</span></div></li>
+      <li><div class="node"><b>composablescience</b><span class="gloss">——组件级知识图谱</span></div></li>
+      <li><div class="node"><span class="gloss">目标：试验性平台 → 实验 → 数据（林教授要求）</span></div></li>
+    </ul>
+  </section>
+
+  <section class="branch" data-c="orange">
+    <h2>贡献证明 <span>Proof of Contribution</span></h2>
+    <ul class="tree">
+      <li><div class="node"><b>定义</b><span class="gloss">——共同体承兑的证据结构</span></div></li>
+      <li><div class="node"><span class="gloss">PoW / PoS 的改进与应用；Web3.5</span></div></li>
+      <li><div class="node"><b>research credits</b><span class="gloss">——当前可实现</span></div></li>
+      <li><div class="node"><span class="gloss">数字货币 —— 远景目标</span></div></li>
+      <li><div class="node"><span class="gloss">Steem 教训：登记 ✓ 确权 ✓ 承兑 ✗（Proof-of-Brain 崩坏）</span></div></li>
+    </ul>
+  </section>
+
+</main>
+
+<footer>
+  第一版 · 2026-11-04 · 依据：brief v4.0、林教授 11-04 反馈、DeepSeek 评语吸收备忘<br>
+  标 <b>新增</b> 的是本次吸收加入的内容；标 <b>映射待确认</b> 的是初拟对应，请 Sam 定夺。
+</footer>
+
+<script>
+(function(){
+  // branch collapse
+  document.querySelectorAll('section.branch h2').forEach(function(h){
+    h.addEventListener('click', function(){
+      h.parentElement.classList.toggle('closed');
+    });
+  });
+  // node collapse
+  document.querySelectorAll('.node.has-kids').forEach(function(n){
+    n.addEventListener('click', function(e){
+      e.stopPropagation();
+      n.parentElement.classList.toggle('closed');
+    });
+  });
+  document.getElementById('expandAll').addEventListener('click', function(){
+    document.querySelectorAll('.closed').forEach(function(el){ el.classList.remove('closed'); });
+  });
+  document.getElementById('collapseAll').addEventListener('click', function(){
+    document.querySelectorAll('section.branch').forEach(function(el){ el.classList.add('closed'); });
+  });
+})();
+</script>
+</body>
+</html>
